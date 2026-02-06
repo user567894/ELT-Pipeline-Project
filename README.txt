@@ -1,6 +1,6 @@
 # NYC Yellow Taxi Data Pipeline
 
-End-to-end data engineering project analyzing NYC taxi trip data with automated ETL, transformation, and visualization.
+End-to-end data engineering project analyzing NYC taxi trip data with automated ELT, transformation, and visualization.
 
 ## Architecture
 [Raw Data] → [PostgreSQL] → [dbt] → [Analytics Tables] → [Streamlit Dashboard]
@@ -23,3 +23,4 @@ End-to-end data engineering project analyzing NYC taxi trip data with automated 
 
 ## Sample Insights
 [screenshots of dashboard]
+
