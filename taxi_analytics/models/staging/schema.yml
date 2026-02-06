@@ -1,0 +1,85 @@
+version: 2
+
+sources:
+  - name: raw
+    database: nyc_taxi
+    schema: public
+    tables:
+      - name: raw_taxi_trips
+        description: "Raw taxi trip data loaded from parquet files"
+        columns:
+          - name: tpep_pickup_datetime
+            description: "Pickup timestamp"
+          - name: tpep_dropoff_datetime
+            description: "Dropoff timestamp"
+          - name: fare_amount
+            description: "Fare amount in dollars"
+
+models:
+  - name: stg_taxi_trips
+    description: "Cleaned and standardized taxi trips"
+    columns:
+      - name: trip_id
+        description: "Unique identifier for each trip"
+        tests:
+          - unique
+          - not_null
+      
+      - name: pickup_datetime
+        description: "Pickup timestamp"
+        tests:
+          - not_null
+      
+      - name: dropoff_datetime
+        description: "Dropoff timestamp"
+        tests:
+          - not_null
+      
+      - name: trip_duration_minutes
+        description: "Trip duration in minutes"
+        tests:
+          - not_null
+      
+      - name: pickup_location_id
+        description: "Taxi zone ID for pickup"
+      
+      - name: dropoff_location_id
+        description: "Taxi zone ID for dropoff"
+      
+      - name: passenger_count
+        description: "Number of passengers"
+        tests:
+          - not_null
+      
+      - name: trip_distance
+        description: "Trip distance in miles"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+      
+      - name: fare_amount
+        description: "Base fare amount"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 1000
+      
+      - name: tip_amount
+        description: "Tip amount"
+      
+      - name: tip_percentage
+        description: "Tip as percentage of fare"
+      
+      - name: total_amount
+        description: "Total charge to passenger"
+        tests:
+          - not_null
+      
+      - name: payment_type
+        description: "Payment method code"
+      
+      - name: loaded_at
+        description: "Timestamp when record was loaded to warehouse"

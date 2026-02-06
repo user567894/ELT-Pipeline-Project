@@ -1,0 +1,95 @@
+version: 2
+
+models:
+  - name: daily_trip_summary
+    description: "Daily aggregated trip metrics by pickup location"
+    columns:
+      - name: trip_date
+        description: "Date of trips"
+        tests:
+          - not_null
+      
+      - name: pickup_location_id
+        description: "Taxi zone ID"
+      
+      - name: total_trips
+        description: "Number of trips"
+        tests:
+          - not_null
+      
+      - name: avg_distance
+        description: "Average trip distance in miles"
+      
+      - name: avg_fare
+        description: "Average fare amount"
+      
+      - name: avg_tip
+        description: "Average tip amount"
+      
+      - name: total_revenue
+        description: "Total revenue for the day/location"
+      
+      - name: avg_passengers
+        description: "Average number of passengers"
+
+  - name: hourly_demand
+    description: "Hourly trip patterns and metrics"
+    columns:
+      - name: trip_date
+        description: "Date of trips"
+        tests:
+          - not_null
+      
+      - name: hour_of_day
+        description: "Hour (0-23)"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 23
+      
+      - name: day_of_week
+        description: "Day of week (0=Sunday, 6=Saturday)"
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 6
+      
+      - name: trip_count
+        description: "Number of trips in this hour"
+      
+      - name: avg_fare
+        description: "Average fare"
+      
+      - name: avg_distance
+        description: "Average distance"
+      
+      - name: avg_tip_percentage
+        description: "Average tip as percentage of fare"
+
+  - name: top_routes
+    description: "Most popular pickup/dropoff location pairs"
+    columns:
+      - name: pickup_location_id
+        description: "Pickup taxi zone ID"
+        tests:
+          - not_null
+      
+      - name: dropoff_location_id
+        description: "Dropoff taxi zone ID"
+        tests:
+          - not_null
+      
+      - name: trip_count
+        description: "Number of trips on this route"
+        tests:
+          - not_null
+      
+      - name: avg_distance
+        description: "Average trip distance"
+      
+      - name: avg_fare
+        description: "Average fare"
+      
+      - name: avg_duration_minutes
+        description: "Average trip duration in minutes"

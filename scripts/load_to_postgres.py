@@ -10,7 +10,6 @@ load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 # Database connection
-DATABASE_URL = "postgresql://dataeng:dataeng123@localhost:5432/nyc_taxi"
 engine = create_engine(DATABASE_URL)
 
 def load_parquet_to_postgres(file_path, table_name="raw_taxi_trips"):
